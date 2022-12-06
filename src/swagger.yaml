@@ -1,0 +1,58 @@
+openapi: "3.0.0"
+info:
+    version: "1.0.0"
+    title: "CTS MOCK SPUR API"
+    description: Get Sanitized Data
+
+paths:
+    /v1/{proxy}:
+        parameters:
+            - name: proxy
+              description: The unique identifier of the data set
+              in: path
+              required: true
+              schema:
+                  $ref: "#/v1/proxy"
+        get:
+            summary: Read a proxy
+            responses:
+                "200":
+                    description: The data corresponding to the provided `proxy prefix` e.g. accounts/domains
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/v1/accounts/domains"
+                404:
+                    description: No data found for the provided `proxy prefix`
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/v1/Error"
+                500:
+                    description: Unexpected error
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/v1/Error"
+components:
+    schemas:
+        id:
+            description: The unique identifier of a record
+            type: string
+        prefix:
+            description: The unique identifier the record as the proxy
+            type: string
+        table:
+            description: The table name
+            type: string
+        data:
+            description: Stringified list of proxy objects
+            type: string
+
+    # securitySchemes:
+        # ApiKey:
+            # type: apiKey
+            # in: header
+            # name: X-Api-Key
+security:
+    - ApiKey: []
